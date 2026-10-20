@@ -1,0 +1,23 @@
+# Connection details come from the environment (see .env.example and
+# docker-compose.yml). DB_* vars are used instead of DATABASE_URL so that
+# running specs inside the dev container still hits the test database.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+  username: <%= ENV.fetch("DB_USER", "datewise") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "datewise") %>
+
+development:
+  <<: *default
+  database: datewise_development
+
+test:
+  <<: *default
+  database: datewise_test
+
+production:
+  <<: *default
+  database: datewise_production
