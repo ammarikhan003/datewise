@@ -34,4 +34,12 @@ RSpec.describe DeliveryDay do
     expect { day.update_column(:capacity, -1) }
       .to raise_error(ActiveRecord::StatementInvalid, /check/i)
   end
+
+  it "clears the closed reason when a day is reopened" do
+    day = create(:delivery_day, closed: true, closed_reason: "Van service")
+
+    day.update!(closed: false)
+
+    expect(day.reload.closed_reason).to be_nil
+  end
 end

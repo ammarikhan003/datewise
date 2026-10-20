@@ -46,6 +46,9 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include ActiveSupport::Testing::TimeHelpers
 
+  # Each example starts with a clean rate-limit counter.
+  config.before { Rack::Attack.reset! }
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

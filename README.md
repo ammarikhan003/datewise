@@ -2,7 +2,7 @@
 
 A delivery-date booking service for an online gift shop: a Rails 7 API decides which delivery dates an order can take, and an Angular 18 app shows them in an accessible date picker. See [docs/SPEC.md](docs/SPEC.md) for the full spec.
 
-Work in progress. Milestones 1 (repo, Docker Compose, CI), 2 (data model and CSV import) and 3 (availability rules) are done.
+Work in progress. Milestones 1 to 4 are done: repo and CI, data model and CSV import, availability rules, and the JSON API.
 
 ## Run it
 
@@ -42,3 +42,16 @@ docker compose exec api bin/rails "datewise:import_holidays[db/seeds/bank_holida
 ```
 
 Each prints a summary such as `10 imported, 0 duplicates, 2 rejected`, then the line number and reason for every rejected row. Rows whose slug or date already exists are skipped, so re-running is safe. `products.csv` has two deliberately bad rows.
+
+## API
+
+| Method and path | What it does |
+| --- | --- |
+| `GET /api/products` | List products |
+| `GET /api/products/:slug` | One product |
+| `GET /api/products/:slug/availability?from=&to=` | Each date with `available` and, if not, `reason` (default: tomorrow to 30 days ahead, at most 62 days) |
+| `POST /api/orders` | Re-checks the date under a row lock, then 201, or 422 with `reason` or field `details` |
+| `GET /api/admin/days?from=&to=` | Orders booked against capacity per day |
+| `PATCH /api/admin/days/:date` | Close or reopen a day, or change its capacity |
+
+Admin requests need `Authorization: Bearer $ADMIN_TOKEN` (`change-me` in local Docker Compose). `POST /api/orders` is limited to 10 requests a minute per IP.
