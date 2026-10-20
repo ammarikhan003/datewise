@@ -17,6 +17,8 @@ development:
 test:
   <<: *default
   database: datewise_test
+  # The concurrency specs book from 8 threads at once, each with a connection.
+  pool: 10
 
 production:
   <<: *default
