@@ -2,7 +2,7 @@
 
 A delivery-date booking service for an online gift shop: a Rails 7 API decides which delivery dates an order can take, and an Angular 18 app shows them in an accessible date picker. See [docs/SPEC.md](docs/SPEC.md) for the full spec.
 
-Work in progress. Milestones 1 (repo, Docker Compose, CI) and 2 (data model and CSV import) are done.
+Work in progress. Milestones 1 (repo, Docker Compose, CI), 2 (data model and CSV import) and 3 (availability rules) are done.
 
 ## Run it
 
@@ -32,7 +32,7 @@ End-to-end tests live in `e2e/` and run in CI against the full stack.
 
 ## Built with Claude Code
 
-See [docs/ai-log.md](docs/ai-log.md) for where AI was used and why. The booking rules, the order transaction and the date picker's keyboard handling are written by hand.
+See [docs/ai-log.md](docs/ai-log.md) for where AI was used and why. Every change is reviewed by hand; the order transaction and the date picker's keyboard handling are written by hand.
 
 ## Importing data
 
