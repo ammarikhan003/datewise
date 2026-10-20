@@ -1,0 +1,13 @@
+name,slug,price_pence,lead_time_days,stock,image_url
+Classic Red Roses,classic-red-roses,3500,0,40,
+Seasonal Tulips,seasonal-tulips,2800,0,30,
+Peony Bouquet,peony-bouquet,4200,0,15,
+Sunflower Bunch,sunflower-bunch,2500,0,25,
+Letterbox Lilies,letterbox-lilies,2200,0,50,
+Orchid Plant,orchid-plant,thirty-five,0,10,
+Dried Flower Wreath,dried-flower-wreath,3800,1,10,
+Personalised Mug,personalised-mug,1800,2,20,
+Engraved Chopping Board,engraved-chopping-board,3200,2,12,
+Luxury Chocolate Box,luxury-chocolate-box,2400,0,60,
+Scented Candle Gift Set,scented-candle-gift-set,2900,0,0,
+,mystery-bouquet,3000,0,5,

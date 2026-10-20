@@ -5,3 +5,4 @@ Where Claude Code was used on Datewise, and why. Ammar reviews every diff; the b
 | Date | Milestone | What Claude Code did | Why |
 | --- | --- | --- | --- |
 | 2026-10-20 | 1 | Scaffolded the repo: Rails API and Angular app generators, Dockerfiles, Docker Compose, CI workflow with placeholder tests | Boilerplate with no business logic; faster to generate and review than to type |
+| 2026-10-20 | 2 | Migrations, models and validations; CSV importers, Rake tasks and seed data, all spec-first | Spec assigns schema and import scripting to Claude Code. A new seeds spec caught an autoloading bug (`Rejection` defined inside `result.rb`), fixed by moving it to its own file |

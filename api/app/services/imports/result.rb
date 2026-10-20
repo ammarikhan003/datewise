@@ -1,8 +1,6 @@
 module Imports
-  Rejection = Data.define(:line, :reason)
-
-  # What an import did: rows saved, rows skipped as duplicates, and rows
-  # rejected with the line number (header is line 1) and reason.
+  # What an import did: rows saved, rows skipped as duplicates, and the
+  # rejected rows (see Rejection).
   Result = Data.define(:imported, :duplicates, :rejected) do
     def report
       summary = "#{imported} imported, #{duplicates} duplicates, #{rejected.size} rejected"

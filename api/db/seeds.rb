@@ -1,9 +1,10 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Loads the sample products and England and Wales bank holidays.
+# Safe to re-run: existing slugs and dates are skipped as duplicates.
+# products.csv deliberately contains two bad rows to show the rejection report.
+{
+  "products.csv" => Imports::ProductImporter,
+  "bank_holidays.csv" => Imports::BankHolidayImporter
+}.each do |file, importer|
+  result = File.open(Rails.root.join("db/seeds", file)) { |io| importer.new(io).call }
+  puts "#{file}: #{result.report}"
+end
