@@ -55,6 +55,8 @@ docker compose up -d
 docker compose --profile e2e run --rm e2e
 ```
 
+RSpec measures coverage with SimpleCov and fails below 90% of lines. Coverage is currently 99% of lines and 100% of branches; CI shows the figures in each run's summary and keeps the HTML report as an artifact.
+
 The end-to-end tests:
 - place a whole order using only the keyboard, including Tab staying inside the date picker dialog and Escape returning focus
 - close a day in admin and check the customer sees it as unavailable

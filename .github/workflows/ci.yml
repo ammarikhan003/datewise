@@ -40,8 +40,30 @@ jobs:
       # specs expect an empty test database.
       - name: Prepare database
         run: bin/rails db:create db:schema:load
+      # Fails below 90% line coverage (minimum_coverage in spec_helper).
       - name: RSpec
         run: bundle exec rspec
+      - name: Coverage summary
+        if: ${{ !cancelled() }}
+        run: |
+          if [ -f coverage/.last_run.json ]; then
+            {
+              echo "### API coverage"
+              echo ""
+              echo "| Lines | Branches |"
+              echo "| --- | --- |"
+              echo "| $(jq -r '.result.line' coverage/.last_run.json)% | $(jq -r '.result.branch' coverage/.last_run.json)% |"
+              echo ""
+              echo "Minimum: 90% of lines. The full HTML report is in this run's artifacts."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload coverage report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-coverage
+          path: api/coverage
+          if-no-files-found: ignore
 
   web:
     runs-on: ubuntu-24.04

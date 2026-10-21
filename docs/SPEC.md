@@ -144,7 +144,7 @@ About a week of focused work, in this order. Each step ends with green tests and
 Done means:
 
 - [x] `docker compose up` gives a working app on a fresh machine
-- [ ] CI is green on `main`, with coverage at 90% or more on the API
+- [x] CI is green on `main`, with coverage at 90% or more on the API
 - [x] Zero serious axe violations, and the whole order journey works with only a keyboard
 - [ ] Any rule can be explained and changed, with its tests, live in under ten minutes
 - [ ] Repo is public with a clear README
