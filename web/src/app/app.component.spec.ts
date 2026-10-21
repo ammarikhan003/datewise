@@ -40,6 +40,21 @@ describe('AppComponent (the app shell)', () => {
     expect(root.querySelector('main#main-content')).not.toBeNull();
   });
 
+  it('moves focus to main when the skip link is used, without leaving the page', async () => {
+    const { root, navigate } = await setup();
+    await navigate('/admin');
+    const router = TestBed.inject(Router);
+    const skipLink = root.querySelector<HTMLAnchorElement>('.skip-link')!;
+
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    skipLink.dispatchEvent(event);
+
+    // With <base href="/">, following "#main-content" would load "/" instead.
+    expect(event.defaultPrevented).toBe(true);
+    expect(router.url).toBe('/admin');
+    expect(document.activeElement).toBe(root.querySelector('main'));
+  });
+
   it('has header, labelled nav, main and footer landmarks', async () => {
     const { root } = await setup();
 

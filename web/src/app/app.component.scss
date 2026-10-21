@@ -73,6 +73,12 @@
 
 main {
   flex: 1;
+
+  // Focused only by the skip link; the ring would just outline the page.
+  &:focus {
+    outline: none;
+  }
+
   padding-block: var(--space-6);
 
   @media (min-width: t.$breakpoint-md) {

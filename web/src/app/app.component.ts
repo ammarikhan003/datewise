@@ -28,6 +28,16 @@ export class AppComponent {
       .subscribe(() => afterNextRender(() => this.focusPageHeading(), { injector: this.injector }));
   }
 
+  /**
+   * With <base href="/">, the browser resolves "#main-content" against the
+   * site root, so following the link would load the home page. Focus main
+   * directly instead; the href stays so it is still a real link.
+   */
+  protected skipToMain(event: Event, main: HTMLElement): void {
+    event.preventDefault();
+    main.focus();
+  }
+
   private focusPageHeading(): void {
     const heading = this.host.nativeElement.querySelector<HTMLElement>('main h1');
     if (!heading) return;
