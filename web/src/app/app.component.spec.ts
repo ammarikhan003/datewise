@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -10,7 +12,8 @@ describe('AppComponent (the app shell)', () => {
   async function setup() {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter(routes), provideAppTitleStrategy()],
+      // Pages fetch data; the fake backend leaves their requests pending.
+      providers: [provideRouter(routes), provideAppTitleStrategy(), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(AppComponent);

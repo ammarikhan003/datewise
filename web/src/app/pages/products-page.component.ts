@@ -1,13 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ApiService } from '../api/api.service';
+import { deliveryText, formatPrice } from '../shared/format';
+import { load } from '../shared/load';
+import { AlertComponent } from '../ui/alert/alert.component';
+import { ButtonComponent } from '../ui/button/button.component';
+import { CardComponent } from '../ui/card/card.component';
+import { SkeletonComponent } from '../ui/skeleton/skeleton.component';
 
-// Placeholder until milestone 6 adds the product list.
 @Component({
   selector: 'app-products-page',
   standalone: true,
+  imports: [AlertComponent, ButtonComponent, CardComponent, SkeletonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h1>Gifts</h1>
-    <p>Choose a gift, then pick a delivery date we can meet.</p>
-  `,
+  templateUrl: './products-page.component.html',
+  styleUrl: './products-page.component.scss',
 })
-export class ProductsPageComponent {}
+export class ProductsPageComponent {
+  private readonly api = inject(ApiService);
+
+  protected readonly products = load(() => this.api.products());
+  protected readonly formatPrice = formatPrice;
+  protected readonly deliveryText = deliveryText;
+}

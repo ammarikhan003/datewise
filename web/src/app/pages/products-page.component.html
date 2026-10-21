@@ -1,0 +1,41 @@
+<h1>Gifts</h1>
+<p class="intro">Choose a gift, then pick a delivery date we can meet.</p>
+
+@let state = products.state();
+@switch (state.status) {
+  @case ('loading') {
+    <ui-skeleton label="Loading gifts" [lines]="3" />
+  }
+  @case ('error') {
+    <div class="stack">
+      <ui-alert variant="error" heading="We couldn't load the gifts.">
+        <p>Check your connection and try again.</p>
+      </ui-alert>
+      <div>
+        <button uiButton type="button" (click)="products.retry()">Try again</button>
+      </div>
+    </div>
+  }
+  @case ('loaded') {
+    @if (state.data.length === 0) {
+      <p>No gifts are available right now.</p>
+    } @else {
+      <ul class="grid">
+        @for (product of state.data; track product.slug) {
+          <li>
+            <ui-card
+              [heading]="product.name"
+              [link]="['/products', product.slug]"
+              [imageUrl]="product.image_url"
+            >
+              <p class="price">{{ formatPrice(product.price_pence) }}</p>
+              <p class="delivery" [class.delivery--unavailable]="!product.in_stock">
+                {{ deliveryText(product) }}
+              </p>
+            </ui-card>
+          </li>
+        }
+      </ul>
+    }
+  }
+}

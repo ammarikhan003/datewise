@@ -1,0 +1,50 @@
+@use 'tokens' as t;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+h1 {
+  font-size: var(--font-size-xxl);
+}
+
+.intro {
+  margin-top: calc(-1 * var(--space-3));
+  color: var(--color-text-muted);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: t.$breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: t.$breakpoint-lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.price {
+  font-weight: 700;
+}
+
+.delivery {
+  color: var(--color-text-muted);
+}
+
+.delivery--unavailable {
+  font-weight: 600;
+}
