@@ -41,5 +41,23 @@ services:
     depends_on:
       - api
 
+  # End-to-end tests: docker compose --profile e2e run --rm e2e
+  # Shares the web container network, so the browser sees the app (and the
+  # proxied API) at localhost:4200 exactly as a developer does.
+  e2e:
+    image: mcr.microsoft.com/playwright:v1.48.2-jammy
+    profiles: ["e2e"]
+    network_mode: "service:web"
+    working_dir: /e2e
+    environment:
+      CI: ${CI:-}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-change-me}
+    volumes:
+      - ./e2e:/e2e
+      - /e2e/node_modules
+    command: sh -c "npm ci --no-audit --no-fund && npx playwright test"
+    depends_on:
+      - web
+
 volumes:
   db-data:
