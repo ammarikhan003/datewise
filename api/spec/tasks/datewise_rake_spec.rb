@@ -38,6 +38,11 @@ RSpec.describe "datewise rake tasks" do
       .to output("1 imported, 0 duplicates, 0 rejected\n").to_stdout
   end
 
+  it "explains the usage when no path is given" do
+    expect { invoke("datewise:import", nil) }
+      .to raise_error(SystemExit).and output(/Usage: give the CSV path in brackets/).to_stderr
+  end
+
   it "stops with a clear message when the file doesn't exist" do
     expect { invoke("datewise:import", "nope.csv") }
       .to raise_error(SystemExit).and output(/File not found: nope.csv/).to_stderr

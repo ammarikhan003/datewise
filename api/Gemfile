@@ -40,4 +40,5 @@ group :development, :test do
 
   gem "factory_bot_rails", "~> 6.4"
   gem "rspec-rails", "~> 7.1"
+  gem "simplecov", "~> 0.22", require: false
 end

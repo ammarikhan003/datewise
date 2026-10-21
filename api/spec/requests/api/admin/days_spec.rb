@@ -105,6 +105,14 @@ RSpec.describe "Admin days API", type: :request do
       expect(json).to include("capacity" => 2, "booked" => 3)
     end
 
+    it "includes the bank holiday name when editing a bank holiday" do
+      create(:bank_holiday, date: Date.new(2026, 12, 28), name: "Boxing Day (substitute day)")
+
+      update_day("2026-12-28", capacity: 10)
+
+      expect(json).to include("capacity" => 10, "bank_holiday" => "Boxing Day (substitute day)")
+    end
+
     it "returns 422 for an invalid capacity and saves nothing" do
       update_day("2026-11-12", capacity: -1)
 

@@ -106,6 +106,13 @@ RSpec.describe Imports::ProductImporter do
     expect(result.rejected).to be_empty
   end
 
+  it "ignores rows that are only commas, as spreadsheets often export" do
+    result = import(header + "Tulips,tulips,2000,0,8,\n,,,,,\n")
+
+    expect(result.imported).to eq(1)
+    expect(result.rejected).to be_empty
+  end
+
   it "does nothing for a header-only file" do
     result = import(header)
 
