@@ -1,0 +1,102 @@
+<h1>Checkout</h1>
+
+@if (!date) {
+  <p>Choose a delivery date first.</p>
+  <p><a [routerLink]="['/products', slug]">Choose a delivery date</a></p>
+} @else {
+  @let state = product.state();
+  @switch (state.status) {
+    @case ('loading') {
+      <ui-skeleton label="Loading your order" [lines]="2" />
+    }
+    @case ('error') {
+      @if (state.notFound) {
+        <p>We couldn't find that gift. <a routerLink="/">Browse all gifts</a></p>
+      } @else {
+        <div class="stack">
+          <ui-alert variant="error" heading="We couldn't load your order.">
+            <p>Check your connection and try again.</p>
+          </ui-alert>
+          <div>
+            <button uiButton type="button" (click)="product.retry()">Try again</button>
+          </div>
+        </div>
+      }
+    }
+    @case ('loaded') {
+      @if (state.data; as gift) {
+        <section class="summary" aria-labelledby="order-heading">
+          <h2 id="order-heading">Your order</h2>
+          <dl>
+            <div>
+              <dt>Gift</dt>
+              <dd>{{ gift.name }}</dd>
+            </div>
+            <div>
+              <dt>Price</dt>
+              <dd>{{ formatPrice(gift.price_pence) }}</dd>
+            </div>
+            <div>
+              <dt>Delivery date</dt>
+              <dd>
+                {{ formatLongDate(date) }}
+                <a [routerLink]="['/products', slug]">Change date<span class="visually-hidden"> of delivery</span></a>
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        @if (problem(); as issue) {
+          <ui-alert variant="error" [heading]="issue.kind === 'unavailable' ? 'That date is no longer available' : null">
+            @switch (issue.kind) {
+              @case ('unavailable') {
+                <p>Sorry, that date has just gone: {{ issue.reason }}.</p>
+                <p><a [routerLink]="['/products', slug]">Choose another date</a></p>
+              }
+              @case ('rate_limited') {
+                <p>Too many attempts. Wait a minute and try again.</p>
+              }
+              @default {
+                <p>We couldn't place your order. Try again.</p>
+              }
+            }
+          </ui-alert>
+        }
+
+        <form
+          class="stack"
+          novalidate
+          [formGroup]="form"
+          (ngSubmit)="submit({ customer_name: nameField.controlId, email: emailField.controlId, address: addressField.controlId })"
+        >
+          <ui-error-summary [errors]="summary()" />
+
+          <h2>Your details</h2>
+          <ui-field #nameField label="Full name" [error]="fieldErrors().customer_name ?? null">
+            <input uiControl type="text" autocomplete="name" formControlName="customer_name" />
+          </ui-field>
+          <ui-field
+            #emailField
+            label="Email address"
+            hint="We'll only use this about your order"
+            [error]="fieldErrors().email ?? null"
+          >
+            <input uiControl type="email" autocomplete="email" spellcheck="false" formControlName="email" />
+          </ui-field>
+          <ui-field
+            #addressField
+            label="Delivery address"
+            hint="Include the postcode"
+            [error]="fieldErrors().address ?? null"
+          >
+            <textarea uiControl autocomplete="street-address" rows="4" formControlName="address"></textarea>
+          </ui-field>
+
+          <div>
+            <button uiButton type="submit" [loading]="submitting()">Place order</button>
+          </div>
+        </form>
+      }
+    }
+  }
+}
