@@ -1,0 +1,24 @@
+<ng-template #title>
+  <a class="ui-card__link" [routerLink]="link">{{ heading }}</a>
+</ng-template>
+
+<article class="ui-card">
+  <div class="ui-card__body">
+    @switch (headingLevel) {
+      @case (3) {
+        <h3 class="ui-card__heading"><ng-container [ngTemplateOutlet]="title" /></h3>
+      }
+      @case (4) {
+        <h4 class="ui-card__heading"><ng-container [ngTemplateOutlet]="title" /></h4>
+      }
+      @default {
+        <h2 class="ui-card__heading"><ng-container [ngTemplateOutlet]="title" /></h2>
+      }
+    }
+    <ng-content />
+  </div>
+
+  @if (imageUrl) {
+    <img class="ui-card__image" [src]="imageUrl" [alt]="imageAlt" loading="lazy" />
+  }
+</article>

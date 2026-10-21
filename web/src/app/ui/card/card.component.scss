@@ -1,0 +1,66 @@
+:host {
+  display: block;
+}
+
+.ui-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  &:hover {
+    border-color: var(--color-border-strong);
+  }
+}
+
+// Shown first visually, though it comes after the heading in the source.
+.ui-card__image {
+  order: -1;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--color-surface);
+}
+
+.ui-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.ui-card__heading {
+  font-size: var(--font-size-lg);
+}
+
+.ui-card__link {
+  color: var(--color-text);
+  text-decoration: none;
+
+  // Stretches the link over the whole card.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+  }
+
+  // The focus ring goes round the card, not just the heading text.
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: var(--focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.ui-card:hover .ui-card__link {
+  text-decoration: underline;
+}
