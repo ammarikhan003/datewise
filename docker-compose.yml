@@ -31,6 +31,8 @@ services:
 
   web:
     build: ./web
+    environment:
+      API_PROXY_TARGET: http://api:3000
     ports:
       - "4200:4200"
     volumes:
