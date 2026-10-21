@@ -32,3 +32,43 @@ export interface AvailabilityResponse {
   to: string;
   dates: AvailabilityDate[];
 }
+
+export interface OrderRequest {
+  product_slug: string;
+  /** YYYY-MM-DD */
+  delivery_date: string;
+  customer_name: string;
+  email: string;
+  address: string;
+}
+
+export interface Order {
+  id: number;
+  delivery_date: string;
+  status: 'confirmed';
+  customer_name: string;
+  email: string;
+  address: string;
+  created_at: string;
+  product: Pick<Product, 'slug' | 'name' | 'price_pence'>;
+}
+
+/** 422 bodies from POST /api/orders. */
+export type OrderError =
+  | { error: 'unavailable'; reason: UnavailableReason }
+  | { error: 'invalid'; details: Partial<Record<keyof OrderRequest, string[]>> };
+
+export interface AdminDay {
+  date: string;
+  capacity: number;
+  booked: number;
+  closed: boolean;
+  closed_reason: string | null;
+  bank_holiday: string | null;
+}
+
+export interface DayChanges {
+  closed?: boolean;
+  closed_reason?: string | null;
+  capacity?: number;
+}

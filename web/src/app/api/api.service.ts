@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, InjectionToken, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AvailabilityResponse, Product } from './api.models';
+import { AdminDay, AvailabilityResponse, DayChanges, Order, OrderRequest, Product } from './api.models';
 
 /** Where the Rails API lives. The default suits `docker compose up`. */
 export const API_URL = new InjectionToken<string>('API_URL', {
@@ -27,5 +27,27 @@ export class ApiService {
     return this.http.get<AvailabilityResponse>(
       `${this.baseUrl}/api/products/${encodeURIComponent(slug)}/availability`,
     );
+  }
+
+  /** The API re-checks the date under a lock; a 422 body is an OrderError. */
+  placeOrder(order: OrderRequest): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/api/orders`, { order });
+  }
+
+  /** Today through 30 days ahead (the API's default). */
+  adminDays(token: string): Observable<AdminDay[]> {
+    return this.http.get<AdminDay[]>(`${this.baseUrl}/api/admin/days`, { headers: this.auth(token) });
+  }
+
+  updateDay(token: string, date: string, changes: DayChanges): Observable<AdminDay> {
+    return this.http.patch<AdminDay>(
+      `${this.baseUrl}/api/admin/days/${date}`,
+      { day: changes },
+      { headers: this.auth(token) },
+    );
+  }
+
+  private auth(token: string): HttpHeaders {
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 }
