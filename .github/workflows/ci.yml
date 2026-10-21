@@ -59,7 +59,7 @@ jobs:
           fi
       - name: Upload coverage report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: api-coverage
           path: api/coverage
@@ -101,7 +101,7 @@ jobs:
       - name: Compose logs on failure
         if: failure()
         run: docker compose logs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: playwright-report
