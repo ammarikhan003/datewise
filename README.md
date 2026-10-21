@@ -2,7 +2,7 @@
 
 A delivery-date booking service for an online gift shop: a Rails 7 API decides which delivery dates an order can take, and an Angular 18 app shows them in an accessible date picker. See [docs/SPEC.md](docs/SPEC.md) for the full spec.
 
-Work in progress. Milestones 1 to 6 are done: repo and CI, data model and CSV import, availability rules, the JSON API, the Angular shell and design system (see /design-system), and the product pages with the accessible date picker.
+Work in progress. Milestones 1 to 7 are done: repo and CI, data model and CSV import, availability rules, the JSON API, the Angular shell and design system (see /design-system), the product pages with the accessible date picker, and checkout, confirmation and the admin days view (/admin).
 
 ## Run it
 
