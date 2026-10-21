@@ -68,22 +68,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Start the stack
         run: docker compose up -d --build
-      - name: Wait for API and web
-        run: |
-          npx --yes wait-on@8 --timeout 300000 http-get://localhost:3000/up http-get://localhost:4200
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: e2e/package-lock.json
-      - name: Install Playwright
-        working-directory: e2e
-        run: |
-          npm ci
-          npx playwright install --with-deps chromium
-      - name: Playwright
-        working-directory: e2e
-        run: npx playwright test
+      # The same command as locally; the tests wait for the stack themselves.
+      # Any serious or critical axe violation fails this step.
+      - name: Playwright (journeys and axe)
+        env:
+          CI: 'true'
+        run: docker compose --profile e2e run --rm e2e
       - name: Compose logs on failure
         if: failure()
         run: docker compose logs

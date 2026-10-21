@@ -2,7 +2,7 @@
 
 A delivery-date booking service for an online gift shop: a Rails 7 API decides which delivery dates an order can take, and an Angular 18 app shows them in an accessible date picker. See [docs/SPEC.md](docs/SPEC.md) for the full spec.
 
-Work in progress. Milestones 1 to 7 are done: repo and CI, data model and CSV import, availability rules, the JSON API, the Angular shell and design system (see /design-system), the product pages with the accessible date picker, and checkout, confirmation and the admin days view (/admin).
+Work in progress. Milestones 1 to 8 are done: repo and CI, data model and CSV import, availability rules, the JSON API, the Angular shell and design system (see /design-system), the product pages with the accessible date picker, checkout, confirmation and the admin days view (/admin), and end-to-end tests with axe accessibility checks.
 
 ## Run it
 
@@ -28,7 +28,14 @@ docker compose run --rm web npm test
 docker compose run --rm web npm run lint
 ```
 
-End-to-end tests live in `e2e/` and run in CI against the full stack.
+End-to-end tests (Playwright, in `e2e/`) run against the running stack, the same way locally and in CI:
+
+```bash
+docker compose up -d
+docker compose --profile e2e run --rm e2e
+```
+
+They place a whole order using only the keyboard, close and reopen a day in admin, and run axe on every page. Any serious or critical accessibility violation fails the run.
 
 ## Built with Claude Code
 
@@ -55,3 +62,5 @@ Each prints a summary such as `10 imported, 0 duplicates, 2 rejected`, then the 
 | `PATCH /api/admin/days/:date` | Close or reopen a day, or change its capacity |
 
 Admin requests need `Authorization: Bearer $ADMIN_TOKEN` (`change-me` in local Docker Compose). `POST /api/orders` is limited to 10 requests a minute per IP.
+
+In development the Angular dev server proxies `/api` to Rails, so the app only talks to its own origin. Because of that, every browser shares the dev server's IP for rate limiting.
