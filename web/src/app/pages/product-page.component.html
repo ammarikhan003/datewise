@@ -1,0 +1,60 @@
+<h1>{{ heading() }}</h1>
+
+@let state = page.state();
+@switch (state.status) {
+  @case ('loading') {
+    <ui-skeleton label="Loading this gift" [lines]="2" />
+  }
+  @case ('error') {
+    @if (state.notFound) {
+      <p>It may have been removed, or the link may be wrong.</p>
+      <p><a routerLink="/">Browse all gifts</a></p>
+    } @else {
+      <div class="stack">
+        <ui-alert variant="error" heading="We couldn't load this gift.">
+          <p>Check your connection and try again.</p>
+        </ui-alert>
+        <div>
+          <button uiButton type="button" (click)="page.retry()">Try again</button>
+        </div>
+      </div>
+    }
+  }
+  @case ('loaded') {
+    @let product = state.data.product;
+    @let dates = state.data.availability;
+    <div class="details">
+      <p class="price">{{ formatPrice(product.price_pence) }}</p>
+      <p class="delivery">{{ deliveryText(product) }}</p>
+    </div>
+
+    <section class="stack" aria-labelledby="delivery-heading">
+      <h2 id="delivery-heading">Delivery</h2>
+
+      @if (!product.in_stock) {
+        <ui-alert variant="info" heading="This gift is out of stock">
+          <p>There are no delivery dates until it's back. <a routerLink="/">Browse other gifts</a></p>
+        </ui-alert>
+      } @else if (!hasAvailableDate(dates.dates)) {
+        <ui-alert variant="info" heading="No delivery dates are free in the next 30 days.">
+          <p>Every date is full or closed. <a routerLink="/">Browse other gifts</a></p>
+        </ui-alert>
+      } @else {
+        <ui-date-picker
+          [availability]="dates.dates"
+          [from]="dates.from"
+          [to]="dates.to"
+          [value]="date()"
+          (valueChange)="date.set($event)"
+        />
+        @if (date(); as chosen) {
+          <div>
+            <a uiButton [routerLink]="['/products', slug, 'checkout']" [queryParams]="{ date: chosen }">
+              Continue to checkout
+            </a>
+          </div>
+        }
+      }
+    </section>
+  }
+}

@@ -7,6 +7,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/products-page.component').then((m) => m.ProductsPageComponent),
   },
   {
+    path: 'products/:slug',
+    title: 'Gift',
+    loadComponent: () => import('./pages/product-page.component').then((m) => m.ProductPageComponent),
+  },
+  {
+    path: 'products/:slug/checkout',
+    title: 'Checkout',
+    loadComponent: () => import('./pages/checkout-page.component').then((m) => m.CheckoutPageComponent),
+  },
+  {
     path: 'admin',
     title: 'Delivery days',
     loadComponent: () => import('./pages/admin-page.component').then((m) => m.AdminPageComponent),
