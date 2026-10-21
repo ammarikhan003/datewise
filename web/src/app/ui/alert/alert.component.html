@@ -1,0 +1,12 @@
+<div class="ui-alert" [class]="'ui-alert ui-alert--' + variant" role="status">
+  @if (shown()) {
+    <span class="ui-alert__icon" aria-hidden="true">{{ icons[variant] }}</span>
+    <div class="ui-alert__body">
+      <span class="visually-hidden">{{ labels[variant] }} </span>
+      @if (heading) {
+        <p class="ui-alert__heading">{{ heading }}</p>
+      }
+      <ng-content />
+    </div>
+  }
+</div>

@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.ui-alert {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-4);
+  border-left: 6px solid currentcolor;
+  border-radius: var(--radius-sm);
+
+  // Keeps the empty live region from taking space before the message arrives.
+  &:empty {
+    display: none;
+  }
+}
+
+.ui-alert--info {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+.ui-alert--success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.ui-alert--error {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+.ui-alert__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid currentcolor;
+  border-radius: 50%;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ui-alert__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.ui-alert__heading {
+  font-weight: 700;
+}
