@@ -1,6 +1,33 @@
-<header>
-  <h1>Datewise</h1>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__name" routerLink="/">Datewise</a>
+    <nav aria-label="Main">
+      <ul class="site-nav">
+        <li>
+          <a
+            routerLink="/"
+            routerLinkActive="is-current"
+            ariaCurrentWhenActive="page"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Gifts</a
+          >
+        </li>
+        <li>
+          <a routerLink="/admin" routerLinkActive="is-current" ariaCurrentWhenActive="page">Admin</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </header>
-<main>
+
+<main id="main-content" class="container">
   <router-outlet />
 </main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Datewise is a portfolio project. <a routerLink="/design-system">Design system</a></p>
+  </div>
+</footer>

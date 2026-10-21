@@ -1,0 +1,89 @@
+@use 'tokens' as t;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+// Off-screen until focused, then shown at the top left.
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 10;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-3);
+}
+
+.site-header__name {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  list-style: none;
+
+  a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+  }
+
+  // An underline, not colour alone, marks the current page.
+  a.is-current,
+  a:hover {
+    border-bottom-color: currentcolor;
+  }
+}
+
+main {
+  flex: 1;
+  padding-block: var(--space-6);
+
+  @media (min-width: t.$breakpoint-md) {
+    padding-block: var(--space-7);
+  }
+}
+
+.site-footer {
+  padding-block: var(--space-5);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
