@@ -17,6 +17,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/checkout-page.component').then((m) => m.CheckoutPageComponent),
   },
   {
+    path: 'orders/confirmation',
+    title: 'Order placed',
+    loadComponent: () =>
+      import('./pages/confirmation-page.component').then((m) => m.ConfirmationPageComponent),
+  },
+  {
     path: 'admin',
     title: 'Delivery days',
     loadComponent: () => import('./pages/admin-page.component').then((m) => m.AdminPageComponent),

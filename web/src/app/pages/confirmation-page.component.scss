@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 40rem;
+}
+
+h1 {
+  padding: var(--space-5);
+  background: var(--color-success-bg);
+  border-left: 6px solid var(--color-success-text);
+  border-radius: var(--radius-sm);
+  color: var(--color-success-text);
+  font-size: var(--font-size-xxl);
+}
+
+.lead {
+  font-size: var(--font-size-lg);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  dt {
+    min-width: 9rem;
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+// Keeps the line breaks the customer typed.
+.address {
+  white-space: pre-line;
+}

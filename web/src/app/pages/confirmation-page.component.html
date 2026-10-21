@@ -1,0 +1,40 @@
+<h1>Order placed</h1>
+
+@if (order; as placed) {
+  <p class="lead">Thank you, {{ placed.customer_name }}. Your gift is booked for {{ formatLongDate(placed.delivery_date) }}.</p>
+
+  <dl class="details">
+    <div>
+      <dt>Order number</dt>
+      <dd>{{ placed.id }}</dd>
+    </div>
+    <div>
+      <dt>Gift</dt>
+      <dd>{{ placed.product.name }}</dd>
+    </div>
+    <div>
+      <dt>Price</dt>
+      <dd>{{ formatPrice(placed.product.price_pence) }}</dd>
+    </div>
+    <div>
+      <dt>Delivery date</dt>
+      <dd>{{ formatLongDate(placed.delivery_date) }}</dd>
+    </div>
+    <div>
+      <dt>Name</dt>
+      <dd>{{ placed.customer_name }}</dd>
+    </div>
+    <div>
+      <dt>Email</dt>
+      <dd>{{ placed.email }}</dd>
+    </div>
+    <div>
+      <dt>Address</dt>
+      <dd class="address">{{ placed.address }}</dd>
+    </div>
+  </dl>
+} @else {
+  <p>We can't show the details again on this page. If you placed an order, it's booked.</p>
+}
+
+<p><a routerLink="/">Browse more gifts</a></p>
