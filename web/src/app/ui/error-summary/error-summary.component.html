@@ -1,0 +1,12 @@
+@if (list.length) {
+  <div #summary class="ui-error-summary" tabindex="-1" [attr.aria-labelledby]="titleId">
+    <h2 class="ui-error-summary__title" [id]="titleId">There is a problem</h2>
+    <ul class="ui-error-summary__list">
+      @for (error of list; track error.fieldId) {
+        <li>
+          <a [href]="'#' + error.fieldId" (click)="focusField($event, error.fieldId)">{{ error.message }}</a>
+        </li>
+      }
+    </ul>
+  </div>
+}

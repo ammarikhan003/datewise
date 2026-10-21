@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { AlertComponent, AlertVariant } from '../ui/alert/alert.component';
 import { ButtonComponent } from '../ui/button/button.component';
 import { CardComponent } from '../ui/card/card.component';
+import { ErrorSummaryComponent } from '../ui/error-summary/error-summary.component';
 import { ControlDirective, FieldComponent } from '../ui/field/field.component';
 
 /** Every design-system component in every state, for review and axe checks. */
@@ -15,6 +16,7 @@ import { ControlDirective, FieldComponent } from '../ui/field/field.component';
     ButtonComponent,
     CardComponent,
     ControlDirective,
+    ErrorSummaryComponent,
     FieldComponent,
     ReactiveFormsModule,
     RouterLink,

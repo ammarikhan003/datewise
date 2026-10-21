@@ -33,7 +33,11 @@
 <section aria-labelledby="fields-heading">
   <h2 id="fields-heading">Fields</h2>
   <form class="stack" [formGroup]="form">
+    <ui-error-summary
+      [errors]="showError() ? [{ fieldId: emailField.controlId, message: 'Enter an email address like name@example.com' }] : []"
+    />
     <ui-field
+      #emailField
       label="Email"
       hint="We'll send your order confirmation here"
       [error]="showError() ? 'Enter an email address like name@example.com' : null"

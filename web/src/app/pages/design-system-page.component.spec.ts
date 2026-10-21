@@ -44,6 +44,23 @@ describe('DesignSystemPageComponent', () => {
     expect(root.querySelector('[aria-invalid="true"]')).not.toBeNull();
   });
 
+  it('shows the error summary with the field error, focused once', () => {
+    document.body.appendChild(root);
+    const toggle = [...root.querySelectorAll('button')].find((b) => b.textContent?.includes('Show error'))!;
+
+    toggle.click();
+    fixture.detectChanges();
+    const summary = root.querySelector('.ui-error-summary');
+    expect(summary?.querySelector('a')?.getAttribute('href')).toBe(`#${root.querySelector('input[type="email"]')?.id}`);
+    expect(document.activeElement).toBe(summary);
+
+    // Later change detection must not pull focus back to the summary.
+    (root.querySelector('textarea') as HTMLTextAreaElement).focus();
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(root.querySelector('textarea'));
+    document.body.replaceChildren();
+  });
+
   it('has no axe violations', async () => {
     expect(await axe(root)).toHaveNoViolations();
   });
