@@ -32,7 +32,7 @@ End-to-end tests live in `e2e/` and run in CI against the full stack.
 
 ## Built with Claude Code
 
-See [docs/ai-log.md](docs/ai-log.md) for where AI was used and why. Every change is reviewed by hand; the order transaction and the date picker's keyboard handling are written by hand.
+See [docs/ai-log.md](docs/ai-log.md) for where AI was used and why. The code is written with Claude Code, and every change is reviewed by hand.
 
 ## Importing data
 
