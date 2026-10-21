@@ -24,9 +24,16 @@ export class FieldComponent {
   @Input() hint: string | null = null;
   @Input() error: string | null = null;
 
-  readonly controlId = `ui-field-${nextId++}`;
-  readonly hintId = `${this.controlId}-hint`;
-  readonly errorId = `${this.controlId}-error`;
+  /** Generated unless given, e.g. when an error summary needs a fixed id to link to. */
+  @Input() controlId = `ui-field-${nextId++}`;
+
+  get hintId(): string {
+    return `${this.controlId}-hint`;
+  }
+
+  get errorId(): string {
+    return `${this.controlId}-error`;
+  }
 
   get describedBy(): string | null {
     const ids = [this.hint && this.hintId, this.error && this.errorId].filter(Boolean);

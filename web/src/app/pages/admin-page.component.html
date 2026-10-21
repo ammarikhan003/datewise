@@ -1,0 +1,109 @@
+<div class="title-row">
+  <h1>Delivery days</h1>
+  @if (signedIn()) {
+    <button uiButton type="button" variant="secondary" (click)="signOut()">Sign out</button>
+  }
+</div>
+
+@if (!signedIn()) {
+  <form class="stack sign-in" novalidate [formGroup]="signInForm" (ngSubmit)="signIn()">
+    <ui-error-summary [errors]="tokenSummary()" />
+    <p>Staff only. Enter the admin token to see and change delivery days.</p>
+    <ui-field label="Admin token" controlId="admin-token" [error]="tokenError()">
+      <input uiControl type="password" autocomplete="off" spellcheck="false" formControlName="token" />
+    </ui-field>
+    <div>
+      <button uiButton type="submit">Sign in</button>
+    </div>
+  </form>
+} @else {
+  @let state = days.state();
+  @switch (state.status) {
+    @case ('loading') {
+      <ui-skeleton label="Loading delivery days" [lines]="4" />
+    }
+    @case ('error') {
+      @if (state.httpStatus !== 401) {
+        <div class="stack">
+          <ui-alert variant="error" heading="We couldn't load the delivery days.">
+            <p>Check your connection and try again.</p>
+          </ui-alert>
+          <div>
+            <button uiButton type="button" (click)="days.retry()">Try again</button>
+          </div>
+        </div>
+      }
+    }
+    @case ('loaded') {
+      @if (notice(); as saved) {
+        @for (n of [saved]; track n.id) {
+          <ui-alert variant="success"><p>{{ n.text }}</p></ui-alert>
+        }
+      }
+
+      @if (rows().length === 0) {
+        <p>No delivery days to show.</p>
+      } @else {
+        <div class="table-scroll" role="region" aria-labelledby="days-caption" tabindex="0">
+          <table>
+            <caption id="days-caption">Orders booked against capacity, today and the next 30 days</caption>
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Booked</th>
+                <th scope="col">Status</th>
+                <th scope="col"><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (day of rows(); track day.date) {
+                @let dayStatus = status(day);
+                <tr [class.is-closed]="dayStatus !== 'Open' && dayStatus !== 'Full'" [class.is-full]="dayStatus === 'Full'">
+                  <th scope="row">{{ formatLongDate(day.date) }}</th>
+                  <td>{{ day.booked }} of {{ day.capacity }} booked</td>
+                  <td>{{ dayStatus }}</td>
+                  <td>
+                    <button uiButton type="button" variant="secondary" (click)="edit(day, $event)">
+                      Edit<span class="visually-hidden"> {{ formatLongDate(day.date) }}</span>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (editing(); as day) {
+        <section class="edit" aria-labelledby="edit-day-heading">
+          <h2 #editHeading id="edit-day-heading" tabindex="-1">Edit {{ formatLongDate(day.date) }}</h2>
+          @if (saveFailed()) {
+            <ui-alert variant="error"><p>We couldn't save that day. Try again.</p></ui-alert>
+          }
+          <form class="stack" novalidate [formGroup]="editForm" (ngSubmit)="save()">
+            <ui-error-summary [errors]="editSummary()" />
+            <div class="checkbox">
+              <input id="day-closed" type="checkbox" formControlName="closed" />
+              <label for="day-closed">Closed for deliveries</label>
+            </div>
+            <ui-field label="Reason for closing" hint="Only staff see this" controlId="day-reason">
+              <input uiControl type="text" name="closed_reason" formControlName="closed_reason" />
+            </ui-field>
+            <ui-field
+              label="Capacity"
+              hint="How many orders this day can take"
+              controlId="day-capacity"
+              [error]="capacityError()"
+            >
+              <input uiControl type="number" min="0" step="1" inputmode="numeric" formControlName="capacity" />
+            </ui-field>
+            <div class="actions">
+              <button uiButton type="submit" [loading]="saving()">Save</button>
+              <button uiButton type="button" variant="secondary" (click)="cancel()">Cancel</button>
+            </div>
+          </form>
+        </section>
+      }
+    }
+  }
+}

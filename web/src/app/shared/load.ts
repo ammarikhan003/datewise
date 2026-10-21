@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 export type Loadable<T> =
   | { status: 'loading' }
   | { status: 'loaded'; data: T }
-  | { status: 'error'; notFound: boolean };
+  | { status: 'error'; notFound: boolean; httpStatus: number | null };
 
 export interface Loader<T> {
   state: Signal<Loadable<T>>;
@@ -27,8 +27,10 @@ export function load<T>(source: () => Observable<T>): Loader<T> {
     state.set({ status: 'loading' });
     subscription = source().subscribe({
       next: (data) => state.set({ status: 'loaded', data }),
-      error: (error: unknown) =>
-        state.set({ status: 'error', notFound: error instanceof HttpErrorResponse && error.status === 404 }),
+      error: (error: unknown) => {
+        const httpStatus = error instanceof HttpErrorResponse ? error.status : null;
+        state.set({ status: 'error', notFound: httpStatus === 404, httpStatus });
+      },
     });
   }
 

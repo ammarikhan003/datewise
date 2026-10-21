@@ -27,8 +27,14 @@ describe('load()', () => {
       load(() => throwError(() => new HttpErrorResponse({ status: 500 }))),
     );
 
-    expect(notFound.state()).toEqual({ status: 'error', notFound: true });
-    expect(serverError.state()).toEqual({ status: 'error', notFound: false });
+    expect(notFound.state()).toEqual({ status: 'error', notFound: true, httpStatus: 404 });
+    expect(serverError.state()).toEqual({ status: 'error', notFound: false, httpStatus: 500 });
+  });
+
+  it('records a non-HTTP error with no status', () => {
+    const loader = inContext(() => load(() => throwError(() => new Error('boom'))));
+
+    expect(loader.state()).toEqual({ status: 'error', notFound: false, httpStatus: null });
   });
 
   it('retries by calling the source again and going back to loading', () => {

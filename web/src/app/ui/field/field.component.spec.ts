@@ -99,6 +99,23 @@ describe('FieldComponent (ui-field) and uiControl', () => {
     });
   });
 
+  it('uses a given control id instead of generating one', () => {
+    @Component({
+      standalone: true,
+      imports: [FieldComponent, ControlDirective],
+      template: `<ui-field label="Admin token" controlId="admin-token" hint="From .env"><input uiControl /></ui-field>`,
+    })
+    class FixedIdHostComponent {}
+
+    const fixed = TestBed.createComponent(FixedIdHostComponent);
+    fixed.detectChanges();
+    const input = fixed.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(input.id).toBe('admin-token');
+    expect(fixed.nativeElement.querySelector('label').htmlFor).toBe('admin-token');
+    expect(input.getAttribute('aria-describedby')).toBe('admin-token-hint');
+  });
+
   it('works with typed reactive forms', () => {
     email.value = 'ada@example.com';
     email.dispatchEvent(new Event('input'));

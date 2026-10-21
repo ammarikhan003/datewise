@@ -5,6 +5,7 @@ import {
   clampDate,
   formatLongDate,
   formatMonth,
+  isSunday,
   monthGrid,
   monthOf,
   moveDate,
@@ -39,6 +40,11 @@ describe('calendar date maths', () => {
 
   it('gives the month of a date', () => {
     expect(monthOf('2026-11-12')).toBe('2026-11');
+  });
+
+  it('knows Sundays', () => {
+    expect(isSunday('2026-11-15')).toBe(true);
+    expect(isSunday('2026-11-14')).toBe(false);
   });
 });
 

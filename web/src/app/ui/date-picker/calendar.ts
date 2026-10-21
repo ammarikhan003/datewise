@@ -54,6 +54,10 @@ function weekdayIndex(date: string): number {
   return (toUtc(date).getUTCDay() + 6) % 7;
 }
 
+export function isSunday(date: string): boolean {
+  return weekdayIndex(date) === 6;
+}
+
 /** The month as rows of 7 (Monday to Sunday), with null where a row spills into another month. */
 export function monthGrid(month: Month): (string | null)[][] {
   const first = `${month}-01`;
