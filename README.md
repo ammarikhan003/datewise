@@ -42,7 +42,7 @@ Every push runs three CI jobs in parallel: `api`, `web` and `e2e`.
 
 ```bash
 # API: RSpec and Rubocop
-docker compose run --rm api bash -c "RAILS_ENV=test bin/rails db:prepare && bundle exec rspec"
+docker compose run --rm -e RAILS_ENV=test api bash -c "bin/rails db:create db:schema:load && bundle exec rspec"
 docker compose run --rm api bundle exec rubocop
 
 # Web: Jest (with axe on every component), ESLint and the production build
