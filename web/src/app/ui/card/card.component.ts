@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
 })
 export class CardComponent {
   @Input({ required: true }) heading!: string;
-  @Input({ required: true }) link!: string | readonly unknown[];
+  @Input({ required: true }) link!: string | unknown[];
   @Input() headingLevel: 2 | 3 | 4 = 2;
   @Input() imageUrl: string | null = null;
   /** Empty by default: the heading already names the product. */

@@ -58,6 +58,9 @@ jobs:
         run: npm run lint
       - name: Jest
         run: npm test
+      # Jest doesn't type-check templates; the production build does.
+      - name: Build
+        run: npm run build
 
   e2e:
     runs-on: ubuntu-latest

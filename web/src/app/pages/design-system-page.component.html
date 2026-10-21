@@ -1,0 +1,73 @@
+<h1>Design system</h1>
+<p class="intro">
+  The components every Datewise page is built from, in each of their states. Colours and spacing come from
+  <code>_tokens.scss</code>.
+</p>
+
+<section aria-labelledby="buttons-heading">
+  <h2 id="buttons-heading">Buttons</h2>
+  <div class="row">
+    <button uiButton type="button">Primary</button>
+    <button uiButton type="button" variant="secondary">Secondary</button>
+    <a uiButton variant="secondary" routerLink="/">Link styled as a button</a>
+    <button uiButton type="button" disabled>Disabled</button>
+    <button uiButton type="button" loading>Loading</button>
+    <button uiButton type="button" [loading]="saving()" (click)="toggleSaving()">Try loading (2 seconds)</button>
+  </div>
+</section>
+
+<section aria-labelledby="cards-heading">
+  <h2 id="cards-heading">Cards</h2>
+  <ul class="grid">
+    @for (card of cards; track card.slug) {
+      <li>
+        <ui-card [heading]="card.name" [link]="['/products', card.slug]" [headingLevel]="3">
+          <p class="price">{{ card.price }}</p>
+          <p class="muted">{{ card.lead }}</p>
+        </ui-card>
+      </li>
+    }
+  </ul>
+</section>
+
+<section aria-labelledby="fields-heading">
+  <h2 id="fields-heading">Fields</h2>
+  <form class="stack" [formGroup]="form">
+    <ui-field
+      label="Email"
+      hint="We'll send your order confirmation here"
+      [error]="showError() ? 'Enter an email address like name@example.com' : null"
+    >
+      <input uiControl type="email" autocomplete="email" formControlName="email" />
+    </ui-field>
+    <ui-field label="Gift message" hint="Up to 200 characters">
+      <textarea uiControl formControlName="message" maxlength="200"></textarea>
+    </ui-field>
+    <div>
+      <button uiButton type="button" variant="secondary" (click)="showError.set(!showError())">
+        {{ showError() ? 'Hide error' : 'Show error' }}
+      </button>
+    </div>
+  </form>
+</section>
+
+<section aria-labelledby="alerts-heading">
+  <h2 id="alerts-heading">Alerts</h2>
+  <div class="stack">
+    <ui-alert variant="info"><p>Orders placed before 2pm can arrive tomorrow.</p></ui-alert>
+    <ui-alert variant="success" heading="Order placed"><p>Your gift will arrive on Thursday 12 November.</p></ui-alert>
+    <ui-alert variant="error" heading="That date has just gone">
+      <p>Someone booked the last slot. Choose another date.</p>
+    </ui-alert>
+
+    <h3>Announced when added</h3>
+    <p class="muted">With a screen reader on, each button adds a new alert, which should be read out.</p>
+    <div class="row">
+      <button uiButton type="button" variant="secondary" (click)="addAlert('success')">Add a success alert</button>
+      <button uiButton type="button" variant="secondary" (click)="addAlert('error')">Add an error alert</button>
+    </div>
+    @for (alert of liveAlerts(); track alert.id) {
+      <ui-alert [variant]="alert.variant"><p>Alert number {{ alert.id }}</p></ui-alert>
+    }
+  </div>
+</section>
