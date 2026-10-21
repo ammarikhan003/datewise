@@ -1,0 +1,13 @@
+<div class="ui-field" [class.ui-field--invalid]="error">
+  <label class="ui-field__label" [for]="controlId">{{ label }}</label>
+
+  @if (hint) {
+    <p class="ui-field__hint" [id]="hintId">{{ hint }}</p>
+  }
+
+  @if (error) {
+    <p class="ui-field__error" [id]="errorId"><span class="visually-hidden">Error: </span>{{ error }}</p>
+  }
+
+  <ng-content />
+</div>
