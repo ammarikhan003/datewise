@@ -6,7 +6,8 @@
     "outDir": "./out-tsc/spec",
     "module": "CommonJS",
     "types": [
-      "jest"
+      "jest",
+      "node"
     ]
   },
   "include": [

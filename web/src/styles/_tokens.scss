@@ -1,0 +1,58 @@
+// Design tokens: the only place raw colours, sizes and breakpoints live.
+// Components use the CSS custom properties that styles.scss generates from
+// these (var(--color-text) etc.); only media queries use the Sass values.
+// Contrast for every text/background pair is checked by tokens-contrast.spec.ts.
+
+// Colour
+$color-text: #1d1d1f;
+$color-text-muted: #595959;
+$color-bg: #ffffff;
+$color-surface: #f6f5f2;
+$color-border: #d4d2cc; // decorative dividers only
+$color-border-strong: #767676; // form controls: 3:1 against the background
+$color-brand: #1e5a43;
+$color-brand-strong: #133d2d; // hover and pressed
+$color-on-brand: #ffffff;
+$color-focus: #0b57d0;
+$color-error: #b3261e;
+$color-info-text: #0b4a80;
+$color-info-bg: #e7f0fa;
+$color-success-text: #1b5e30;
+$color-success-bg: #e6f4ea;
+$color-error-text: #8c1d18;
+$color-error-bg: #fcebea;
+$color-disabled-text: #6b6b6b;
+$color-disabled-bg: #e9e8e4;
+
+// Spacing: a 4px scale
+$space: (
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.5rem,
+  6: 2rem,
+  7: 3rem,
+  8: 4rem,
+);
+
+// Type: rem so it scales with the browser's font size and zoom
+$font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-size: (
+  sm: 0.875rem,
+  md: 1rem,
+  lg: 1.25rem,
+  xl: 1.5rem,
+  xxl: 2rem,
+);
+$line-height: 1.5;
+$line-height-tight: 1.2;
+
+// Shape
+$radius-sm: 0.25rem;
+$radius-md: 0.5rem;
+$focus-ring-width: 3px;
+
+// Breakpoints (min-width, mobile first)
+$breakpoint-md: 40rem;
+$breakpoint-lg: 64rem;

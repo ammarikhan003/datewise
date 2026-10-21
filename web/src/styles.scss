@@ -1,1 +1,124 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use 'tokens' as t;
+
+:root {
+  --color-text: #{t.$color-text};
+  --color-text-muted: #{t.$color-text-muted};
+  --color-bg: #{t.$color-bg};
+  --color-surface: #{t.$color-surface};
+  --color-border: #{t.$color-border};
+  --color-border-strong: #{t.$color-border-strong};
+  --color-brand: #{t.$color-brand};
+  --color-brand-strong: #{t.$color-brand-strong};
+  --color-on-brand: #{t.$color-on-brand};
+  --color-focus: #{t.$color-focus};
+  --color-error: #{t.$color-error};
+  --color-info-text: #{t.$color-info-text};
+  --color-info-bg: #{t.$color-info-bg};
+  --color-success-text: #{t.$color-success-text};
+  --color-success-bg: #{t.$color-success-bg};
+  --color-error-text: #{t.$color-error-text};
+  --color-error-bg: #{t.$color-error-bg};
+  --color-disabled-text: #{t.$color-disabled-text};
+  --color-disabled-bg: #{t.$color-disabled-bg};
+
+  @each $step, $size in t.$space {
+    --space-#{$step}: #{$size};
+  }
+
+  @each $name, $size in t.$font-size {
+    --font-size-#{$name}: #{$size};
+  }
+
+  --font-family: #{t.$font-family};
+  --line-height: #{t.$line-height};
+  --line-height-tight: #{t.$line-height-tight};
+  --radius-sm: #{t.$radius-sm};
+  --radius-md: #{t.$radius-md};
+  --focus-ring: #{t.$focus-ring-width} solid #{t.$color-focus};
+}
+
+// Reset
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+ul,
+ol,
+fieldset,
+legend {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height);
+}
+
+h1,
+h2,
+h3 {
+  line-height: var(--line-height-tight);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--color-brand);
+  text-underline-offset: 0.15em;
+}
+
+// Focus: always visible for keyboard users, never removed
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+// Hidden visually but still read by screen readers
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
