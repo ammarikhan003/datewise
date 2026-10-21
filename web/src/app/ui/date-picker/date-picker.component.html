@@ -1,0 +1,92 @@
+<div class="ui-date-picker">
+  <p class="ui-date-picker__value" [id]="id + '-value'">
+    Delivery date: <strong>{{ selectedLabel() ?? 'not chosen yet' }}</strong>
+  </p>
+  <button
+    #trigger
+    uiButton
+    type="button"
+    [variant]="selected() ? 'secondary' : 'primary'"
+    aria-haspopup="dialog"
+    [attr.aria-describedby]="id + '-value'"
+    (click)="open()"
+  >
+    {{ selected() ? 'Change date' : 'Choose a delivery date' }}
+  </button>
+
+  <dialog
+    #dialog
+    class="ui-date-picker__dialog"
+    [attr.aria-labelledby]="id + '-title'"
+    (close)="onDialogClosed()"
+  >
+    <h2 class="ui-date-picker__title" [id]="id + '-title'">Choose a delivery date</h2>
+
+    <div class="ui-date-picker__header">
+      <button
+        type="button"
+        class="ui-date-picker__nav ui-date-picker__prev"
+        [attr.aria-label]="'Previous month, ' + previousMonthLabel()"
+        [attr.aria-disabled]="canGoBack() ? null : 'true'"
+        (click)="changeMonth(-1)"
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
+      <p class="ui-date-picker__month" [id]="id + '-month'" aria-live="polite">{{ monthLabel() }}</p>
+      <button
+        type="button"
+        class="ui-date-picker__nav ui-date-picker__next"
+        [attr.aria-label]="'Next month, ' + nextMonthLabel()"
+        [attr.aria-disabled]="canGoForward() ? null : 'true'"
+        (click)="changeMonth(1)"
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+
+    <table class="ui-date-picker__grid" role="grid" [attr.aria-labelledby]="id + '-month'">
+      <thead>
+        <tr>
+          @for (day of weekdays; track day.short) {
+            <th scope="col" [attr.abbr]="day.long">{{ day.short }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (week of weeks(); track $index) {
+          <tr>
+            @for (date of week; track $index) {
+              @if (date) {
+                @let reason = reasonFor(date);
+                <td
+                  [attr.data-date]="date"
+                  [attr.tabindex]="date === focused() ? 0 : -1"
+                  [attr.aria-selected]="date === selected()"
+                  [attr.aria-disabled]="reason ? 'true' : null"
+                  [attr.aria-current]="date === today() ? 'date' : null"
+                  [class.is-unavailable]="reason"
+                  [class.is-selected]="date === selected()"
+                  [class.is-today]="date === today()"
+                  (click)="choose(date)"
+                  (keydown)="onCellKeydown($event)"
+                >
+                  <span aria-hidden="true">{{ +date.slice(8) }}</span>
+                  <span class="visually-hidden">{{ cellLabel(date, reason) }}</span>
+                </td>
+              } @else {
+                <td></td>
+              }
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <p class="ui-date-picker__status" aria-hidden="true">{{ status() }}</p>
+
+    <div class="ui-date-picker__footer">
+      <p class="ui-date-picker__hint">Struck-through dates can't be booked.</p>
+      <button uiButton type="button" variant="secondary" (click)="close()">Close</button>
+    </div>
+  </dialog>
+</div>
